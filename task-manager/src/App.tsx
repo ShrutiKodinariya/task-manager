@@ -42,15 +42,15 @@ const App = () => {
         flexDirection: 'column',
         alignItems: 'center',
         padding: '2rem',
+        backgroundColor: 'rgba(139, 167, 177, 0.23)'   
       }}
     >
       <Container maxWidth="sm">
         <Box sx={{ marginTop: 4 }}>
           <Typography variant="h4" component="h1" gutterBottom
             sx={{
-              fontFamily: '"Roboto Slab", serif',
+              fontFamily: 'BlinkMacSystemFont',
               fontWeight: 'bold',
-              textDecoration: 'underline',
             }}>
             Task Management App
           </Typography>

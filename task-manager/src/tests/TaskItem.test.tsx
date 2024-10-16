@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';  // for more matchers like toBeInTheDocument
+import '@testing-library/jest-dom';
 import TaskItem from '../Components/TaskItem';
 
 const mockTask = {

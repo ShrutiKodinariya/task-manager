@@ -50,6 +50,7 @@ const App = () => {
             sx={{
               fontFamily: '"Roboto Slab", serif',
               fontWeight: 'bold',
+              textDecoration: 'underline',
             }}>
             Task Management App
           </Typography>

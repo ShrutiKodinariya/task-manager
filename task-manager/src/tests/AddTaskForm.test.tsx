@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect'; // for matchers like toBeInTheDocument
+import '@testing-library/jest-dom';
 import AddTaskForm from '../Components/AddTaskForm';
 
 const mockOnAdd = jest.fn();
@@ -49,7 +49,7 @@ describe('AddTaskForm Component', () => {
     render(<AddTaskForm onAdd={mockOnAdd} />);
     
     const inputField = screen.getByPlaceholderText('Enter Task') as HTMLInputElement;
-    const addButton = screen.getByRole('button', { name: 'Add Task' });
+    const addButton = screen.getByRole('button', { name: 'Add' });
   
     // Submit empty form to show error
     fireEvent.click(addButton);

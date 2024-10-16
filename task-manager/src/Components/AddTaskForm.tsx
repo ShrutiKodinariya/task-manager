@@ -59,20 +59,21 @@ const AddTaskForm = ({ onAdd }: AddTaskFormProps) => {
                 />
                 <Button type='submit' sx={
                     {
-                        backgroundColor: 'rgba(243, 218, 231, 0.8)', // 'none' won't work; use 'transparent'
-                        color: 'black', // font color black
-                        border: 'none', // no border
-                        borderRadius: '8px', // rounded corners
-                        boxShadow: 'none', // initial box shadow
+                        background:'rgba(243, 218, 231, 0.8)',
+                        fontSize:15,
+                        color: 'black', 
+                        border: 'none', 
+                        borderRadius: '8px',
+                        boxShadow: 'none',
                         '&:hover': {
-                            boxShadow: '0 0px 8px 0 rgba(17, 2, 210, 0.19)' // box shadow on hover
+                            boxShadow: '0 0px 8px 0 rgba(17, 2, 210, 0.19)' 
                         },
                         '&:active': {
-                            boxShadow: '0 4px 8px 0 rgba(17, 2, 210, 0.19)', // box shadow on active
+                            boxShadow: '0 4px 8px 0 rgba(17, 2, 210, 0.19)',
                         },
                     }
                 }>
-                    Add Task
+                    Add
                 </Button>
             </Box>
             {error && (

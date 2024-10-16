@@ -12,14 +12,14 @@ const TaskItem = ({ task, onToggle, onDelete }: TaskItemProps) => {
         </IconButton>
       }
       sx={{
-        backgroundColor: task.completed ? 'transparent' : (task.completed ? '#e8f5e9' : 'inherit'),
-        transition: 'background-color 0.3s ease', // Smooth transition
+        backgroundColor: task.completed ? 'transparent' : '#e8f5e9', // Simplified condition
+        transition: 'background-color 0.3s ease',
       }}
     >
       <Checkbox checked={task.completed} onChange={() => onToggle(task.id)} />
-      <ListItemText 
-        primary={task.text} 
-        sx={{ textDecoration: task.completed ? 'line-through' : 'none' }} 
+      <ListItemText
+        primary={task.text}
+        sx={{ textDecoration: task.completed ? 'line-through' : 'none' }} // This part looks good
       />
     </ListItem>
   );

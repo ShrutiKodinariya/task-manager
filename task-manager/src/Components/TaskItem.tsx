@@ -11,7 +11,10 @@ const TaskItem = ({ task, onToggle, onDelete }: TaskItemProps) => {
           <DeleteIcon />
         </IconButton>
       }
-      sx={{ backgroundColor: task.completed ? '#e8f5e9' : 'inherit' }}
+      sx={{
+        backgroundColor: task.completed ? 'transparent' : (task.completed ? '#e8f5e9' : 'inherit'),
+        transition: 'background-color 0.3s ease', // Smooth transition
+      }}
     >
       <Checkbox checked={task.completed} onChange={() => onToggle(task.id)} />
       <ListItemText 

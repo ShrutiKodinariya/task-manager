@@ -1,11 +1,23 @@
 import React from 'react';
 import { TaskListProps } from '../types';
 import TaskItem from './TaskItem';
-import { List, Paper } from '@mui/material';
+import { List, Paper, Box, Typography } from '@mui/material';
 
 const TaskList = ({ tasks, onToggle, onDelete }: TaskListProps) => {
   return (
-    <Paper sx={{ marginTop: 2 }}>
+    <Box sx={{marginTop:5}}>
+      <Typography 
+      variant="h6" 
+                    sx={{ 
+                        fontFamily: '"Roboto Slab", serif',
+                        color: '#111', 
+                        fontSize: 25,
+                    }}>
+        Task List:
+      </Typography>
+    <Paper sx={{ marginTop: 2 ,
+      backgroundColor: 'rgba(255, 255, 255, 0.45)',
+    }}>
       <List>
         {tasks.map((task) => (
           <TaskItem
@@ -17,6 +29,7 @@ const TaskList = ({ tasks, onToggle, onDelete }: TaskListProps) => {
         ))}
       </List>
     </Paper>
+    </Box>
   );
 };
 

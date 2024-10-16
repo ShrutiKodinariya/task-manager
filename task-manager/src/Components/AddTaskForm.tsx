@@ -59,7 +59,7 @@ const AddTaskForm = ({ onAdd }: AddTaskFormProps) => {
                 />
                 <Button type='submit' sx={
                     {
-                        backgroundColor: 'transparent', // 'none' won't work; use 'transparent'
+                        backgroundColor: 'rgba(243, 218, 231, 0.8)', // 'none' won't work; use 'transparent'
                         color: 'black', // font color black
                         border: 'none', // no border
                         borderRadius: '8px', // rounded corners

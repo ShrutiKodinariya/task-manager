@@ -37,7 +37,7 @@ const App = () => {
     <Box
       sx={{
         minHeight: '100vh',
-        background: 'linear-gradient(90deg, rgba(0,23,36,0.7400210084033614) 0%, rgba(9,105,121,0.5243347338935574) 51%, rgba(0,212,255,0.20220588235294112) 100%)',
+        background: 'none',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -48,9 +48,8 @@ const App = () => {
         <Box sx={{ marginTop: 4 }}>
           <Typography variant="h4" component="h1" gutterBottom
             sx={{
-              fontFamily: '"Roboto Slab", serif', // Change to your desired font family
-              fontWeight: 'bold', // Example style: make text bold
-              fontStyle: 'italic', // Example style: italicize the text
+              fontFamily: '"Roboto Slab", serif',
+              fontWeight: 'bold',
             }}>
             Task Management App
           </Typography>

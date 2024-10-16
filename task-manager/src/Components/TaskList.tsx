@@ -16,7 +16,7 @@ const TaskList = ({ tasks, onToggle, onDelete }: TaskListProps) => {
         Task List:
       </Typography>
     <Paper sx={{ marginTop: 2 ,
-      backgroundColor: 'rgba(255, 255, 255, 0.45)',
+      backgroundColor: 'rgba(243, 218, 231, 0.8)',
     }}>
       <List>
         {tasks.map((task) => (

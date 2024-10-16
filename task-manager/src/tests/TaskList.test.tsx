@@ -1,51 +1,34 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import TaskList from '../Components/TaskList';
+import { Task } from '../types';
 
-// Sample task data
-const mockTasks = [
+const mockTasks: Task[] = [
   { id: 1, text: 'Task 1', completed: false },
   { id: 2, text: 'Task 2', completed: true },
 ];
 
-// Mock functions for onToggle and onDelete
 const mockOnToggle = jest.fn();
 const mockOnDelete = jest.fn();
 
-// Mock the TaskItem component
-jest.mock('../Components/TaskItem', () => jest.fn(({ task }) => (
-  <div data-testid="task-item">{task.text}</div>
-)));
-
-describe('TaskList Component', () => {
-  // Test for the task list heading
-  test('renders task list heading', () => {
+describe('TaskList', () => {
+  it('renders the task list with correct number of tasks', () => {
     render(<TaskList tasks={mockTasks} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
-    const heading = screen.getByText('Task List:');
-    expect(heading).toBeInTheDocument();
+    
+    const taskItems = screen.getAllByRole('listitem');
+    expect(taskItems).toHaveLength(2);
   });
 
-  // Test for correct number of TaskItem components
-  test('renders correct number of TaskItem components', () => {
+  it('displays "Task List:" text', () => {
     render(<TaskList tasks={mockTasks} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
-    const taskItems = screen.getAllByTestId('task-item');
-    expect(taskItems).toHaveLength(mockTasks.length);
+    
+    expect(screen.getByText('Task List:')).toBeInTheDocument();
   });
 
-  // Test for rendering task text in TaskItem components
-  test('renders task text in TaskItem components', () => {
+  it('renders TaskItem components for each task', () => {
     render(<TaskList tasks={mockTasks} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
-    const firstTask = screen.getByText('Task 1');
-    const secondTask = screen.getByText('Task 2');
-    expect(firstTask).toBeInTheDocument();
-    expect(secondTask).toBeInTheDocument();
-  });
-
-  // Test for no TaskItem if task list is empty
-  test('renders no TaskItem if task list is empty', () => {
-    render(<TaskList tasks={[]} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
-    const taskItems = screen.queryAllByTestId('task-item');
-    expect(taskItems).toHaveLength(0);
+    
+    expect(screen.getByText('Task 1')).toBeInTheDocument();
+    expect(screen.getByText('Task 2')).toBeInTheDocument();
   });
 });

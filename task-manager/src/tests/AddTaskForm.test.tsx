@@ -1,67 +1,63 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import AddTaskForm from '../Components/AddTaskForm';
 
 const mockOnAdd = jest.fn();
 
-describe('AddTaskForm Component', () => {
-  test('renders form with input and button', () => {
-    render(<AddTaskForm onAdd={mockOnAdd} />);
-    
-    // Check if the input field and button are rendered
-    const inputField = screen.getByPlaceholderText('Enter Task') as HTMLInputElement;
-    const addButton = screen.getByRole('button', { name: 'Add Task' });
-
-    expect(inputField).toBeInTheDocument();
-    expect(addButton).toBeInTheDocument();
+describe('AddTaskForm', () => {
+  beforeEach(() => {
+    mockOnAdd.mockClear();
   });
 
-  test('calls onAdd with input value when form is submitted', () => {
+  it('renders the form with input and button', () => {
     render(<AddTaskForm onAdd={mockOnAdd} />);
-    
-    const inputField = screen.getByPlaceholderText('Enter Task') as HTMLInputElement;
-    const addButton = screen.getByRole('button', { name: 'Add Task' });
-
-    // Simulate user typing a task
-    fireEvent.change(inputField, { target: { value: 'New Task' } });
-    fireEvent.click(addButton);
-
-    // Ensure onAdd is called with the correct task text
-    expect(mockOnAdd).toHaveBeenCalledWith('New Task');
-    expect(inputField.value).toBe(''); // Ensure input field is cleared after submission
+    expect(screen.getByPlaceholderText('Enter Task')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Add' })).toBeInTheDocument();
   });
 
-  test('shows error when trying to submit empty input', () => {
+  it('updates input value when typing', () => {
     render(<AddTaskForm onAdd={mockOnAdd} />);
-    
-    const addButton = screen.getByRole('button', { name: 'Add Task' });
-
-    // Try to submit an empty form
-    fireEvent.click(addButton);
-
-    // Expect error message to be displayed
-    const errorMessage = screen.getByText('Task cannot be empty');
-    expect(errorMessage).toBeInTheDocument();
+    const input = screen.getByPlaceholderText('Enter Task');
+    fireEvent.change(input, { target: { value: 'New Task' } });
+    expect(input).toHaveValue('New Task');
   });
 
-  test('removes error message after successful submission', () => {
+  it('calls onAdd with input value when form is submitted', () => {
     render(<AddTaskForm onAdd={mockOnAdd} />);
-    
-    const inputField = screen.getByPlaceholderText('Enter Task') as HTMLInputElement;
+    const input = screen.getByPlaceholderText('Enter Task');
     const addButton = screen.getByRole('button', { name: 'Add' });
-  
-    // Submit empty form to show error
+
+    fireEvent.change(input, { target: { value: 'New Task' } });
     fireEvent.click(addButton);
-    const errorMessage = screen.getByText('Task cannot be empty');
-    expect(errorMessage).toBeInTheDocument();
-  
-    // Submit valid input to remove error
-    fireEvent.change(inputField, { target: { value: 'Valid Task' } });
-    fireEvent.click(addButton);
-    
-    // Instead of trying to type cast `errorMessage` as HTMLElement, we rely on expect's ability to handle null values
-    expect(screen.queryByText('Task cannot be empty')).toBeNull(); // This will now correctly check for the absence of the error message
+
+    expect(mockOnAdd).toHaveBeenCalledWith('New Task');
   });
-  
+
+  it('displays error messages when trying to add an empty task', () => {
+    render(<AddTaskForm onAdd={mockOnAdd} />);
+    const addButton = screen.getByRole('button', { name: 'Add' });
+
+    fireEvent.click(addButton);
+
+    const errorMessages = screen.getAllByText('Task cannot be empty');
+    expect(errorMessages).toHaveLength(2);  // Expect two error messages
+    expect(mockOnAdd).not.toHaveBeenCalled();
+  });
+
+  it('clears input and errors after successfully adding a task', () => {
+    render(<AddTaskForm onAdd={mockOnAdd} />);
+    const input = screen.getByPlaceholderText('Enter Task');
+    const addButton = screen.getByRole('button', { name: 'Add' });
+
+    // First, try to add an empty task to trigger the error
+    fireEvent.click(addButton);
+    expect(screen.getAllByText('Task cannot be empty')).toHaveLength(2);
+
+    // Now add a valid task
+    fireEvent.change(input, { target: { value: 'New Task' } });
+    fireEvent.click(addButton);
+
+    expect(input).toHaveValue('');
+    expect(screen.queryAllByText('Task cannot be empty')).toHaveLength(0);
+  });
 });

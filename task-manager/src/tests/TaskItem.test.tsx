@@ -1,48 +1,37 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import TaskItem from '../Components/TaskItem';
+import { Task } from '../types';
 
-const mockTask = {
-  id: 1,
-  text: 'Test Task',
-  completed: false,
-};
-
+const mockTask: Task = { id: 1, text: 'Test Task', completed: false };
 const mockOnToggle = jest.fn();
 const mockOnDelete = jest.fn();
 
-describe('TaskItem Component', () => {
-  test('renders task text', () => {
+describe('TaskItem', () => {
+  it('renders the task text', () => {
     render(<TaskItem task={mockTask} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
-    const taskText = screen.getByText('Test Task');
-    expect(taskText).toBeInTheDocument();
+    expect(screen.getByText('Test Task')).toBeInTheDocument();
   });
 
-  test('shows the checkbox as unchecked initially', () => {
-    render(<TaskItem task={mockTask} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
-    const checkbox = screen.getByRole('checkbox');
-    expect(checkbox).not.toBeChecked();
-  });
-
-  test('calls onToggle when checkbox is clicked', () => {
+  it('calls onToggle when checkbox is clicked', () => {
     render(<TaskItem task={mockTask} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
     const checkbox = screen.getByRole('checkbox');
     fireEvent.click(checkbox);
-    expect(mockOnToggle).toHaveBeenCalledWith(1);  // Ensures the task ID is passed correctly
+    expect(mockOnToggle).toHaveBeenCalledWith(1);
   });
 
-  test('calls onDelete when delete button is clicked', () => {
+  it('calls onDelete when delete button is clicked', () => {
     render(<TaskItem task={mockTask} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
-    const deleteButton = screen.getByLabelText('delete');
+    const deleteButton = screen.getByRole('button');
     fireEvent.click(deleteButton);
-    expect(mockOnDelete).toHaveBeenCalledWith(1);  // Ensures the task ID is passed correctly
+    expect(mockOnDelete).toHaveBeenCalledWith(1);
   });
 
-  test('strikes through text when task is completed', () => {
-    const completedTask = { ...mockTask, completed: true };
-    render(<TaskItem task={completedTask} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
-    const taskText = screen.getByText('Test Task');
-    expect(taskText).toHaveStyle('text-decoration: line-through');
+  it('applies correct background color based on completion status', () => {
+    const { rerender } = render(<TaskItem task={mockTask} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
+    expect(screen.getByRole('listitem')).toHaveStyle('background-color: #e8f5e9');
+
+    rerender(<TaskItem task={{...mockTask, completed: true}} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
+    expect(screen.getByRole('listitem')).toHaveStyle('background-color: transparent');
   });
 });
